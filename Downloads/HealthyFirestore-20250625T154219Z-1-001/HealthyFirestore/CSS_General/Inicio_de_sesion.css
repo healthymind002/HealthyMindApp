@@ -1,0 +1,531 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('/Imagenes/imagenes/Atardecer_en_el_Lago_Serpenteante.png') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.wrapper {
+    width: 420px;
+    color: white;
+    padding: 30px 40px;
+    border-radius: 20px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+}
+
+.wrapper h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.wrapper img {
+    width: 100px;
+    height: 70px;
+    display: block;
+    margin: 0 auto;
+}
+
+.wrapper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 20px 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+/* Estado visible normal */
+.input-box {
+    max-height: 50px;
+    opacity: 1;
+    margin: 20px 0;
+}
+
+/* Estado oculto */
+.input-box.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 40px 20px 20px;
+}
+
+.input-box input::placeholder {
+    color: #fff;
+}
+
+.input-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.wrapper .recuerdame-olvide {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: 10px 0 15px;
+}
+
+.recuerdame-olvide label input {
+    accent-color: #fff;
+    margin-right: 3px;
+}
+
+.recuerdame-olvide a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.recuerdame-olvide a:hover {
+    text-decoration: underline;
+    color: aqua;
+}
+
+/*Términos y condiciones*/
+.terms {
+    font-size: 14.5px;
+    margin: 10px 0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    max-height: 50px;
+    opacity: 1;
+    overflow: hidden;
+}
+
+.terms.hidden {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+}
+
+.terms a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.terms a:hover {
+    text-decoration: underline;
+    color: aqua;
+}
+
+.terms input {
+    accent-color: #fff;
+    margin-right: 3px;
+}
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background-color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    transition: background 0.5s, transform 0.3s;
+}
+
+.wrapper .btn:hover {
+    background-color: aqua;
+    color: #000000;
+    transform: scale(1.05);
+}
+
+.wrapper .buttons-box {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.wrapper .buttons-box button {
+    width: 40%;
+    padding: 15px 0;
+    border: none;
+    border-radius: 25px;
+    background-color: #ffffff;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.5s, transform 0.3s;
+    font-weight: 600;
+}
+
+.wrapper .buttons-box button:hover {
+    background-color: aqua;
+    color: #000000;
+    transform: scale(1.05);
+}
+
+.wrapper .buttons-box button.disable {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: default;
+    transform: none;
+}
+
+.wrapper .buttons-box p {
+    color: #fff;
+    margin-top: 10px;
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.buttons-box .btn_cancel{
+    color:#333;
+    text-decoration: none;
+}
+
+/* Terms and conditions modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s, visibility 0.4s;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    background-image: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 50%, #b8a0e9 100%);
+    border-radius: 15px;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+    color: #fff;
+    transform: translateY(-50px);
+    transition: transform 0.4s ease-out;
+    overflow-y: auto;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 22px;
+    color: #fff;
+    cursor: pointer;
+    background: none;
+    border: none;
+    outline: none;
+    transition: all 0.3s;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close:hover {
+    color: #fff;
+    transform: scale(1.2);
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 20px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-accept {
+    padding: 12px 30px;
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.modal-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(142, 197, 252, 0.5);
+}
+
+.modal-accept:active {
+    transform: translateY(1px);
+}
+
+.terms-content {
+    line-height: 1.7;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.terms-content h3 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.terms-content p {
+    margin-bottom: 16px;
+}
+
+.terms-content ul {
+    margin-left: 20px;
+    margin-bottom: 16px;
+}
+
+.terms-content ul li {
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.terms-content ul li:before {
+    content: "•";
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* Gradient backdrop animation variant (optional) */
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.modal-avatar-contenido {
+    background-image: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 50%, #b8a0e9 100%);
+    margin: 20% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 800px;
+    max-height: 80vh;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+/*Modo oscuro*/
+/* Dark Mode Styling */
+body.dark-mode {
+    background-image: url('/Imagenes/imagenes/banner-de-hoja-de-monstera-tropical-neon.jpg');
+}
+
+.dark-mode .wrapper {
+    background: rgba(18, 18, 18, 0.8);
+    border: 2px solid rgba(100, 100, 100, 0.2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    color: #e0e0e0;
+}
+
+.dark-mode .wrapper h1 {
+    color: #e0e0e0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .input-box input {
+    border: 2px solid rgba(100, 100, 100, 0.3);
+    color: #e0e0e0;
+}
+
+.dark-mode .input-box input::placeholder {
+    color: #aaaaaa;
+}
+
+.dark-mode .input-box i {
+    color: #aaaaaa;
+}
+
+.dark-mode .recuerdame-olvide {
+    color: #cccccc;
+}
+
+.dark-mode .recuerdame-olvide a {
+    color: #ffffff;
+}
+
+.dark-mode .recuerdame-olvide a:hover {
+    color: #ffffff;
+}
+
+.dark-mode .terms {
+    color: #cccccc;
+}
+
+.dark-mode .terms a {
+    color: #ffffff;
+}
+
+.dark-mode .terms a:hover {
+    color: #ffffff;
+}
+
+.dark-mode .wrapper .btn {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    color: #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid #333333;
+}
+
+.dark-mode .wrapper .btn:hover {
+    background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
+    color: #121212;
+    border: none;
+}
+
+.dark-mode .wrapper .buttons-box button {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    color: #e0e0e0;
+    border: 1px solid #333333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .wrapper .buttons-box button:hover {
+    background: linear-gradient(135deg, #8ec5fc 0%, #e0c3fc 100%);
+    color: #121212;
+    border: none;
+}
+
+.dark-mode .wrapper .buttons-box button.disable {
+    background-color: #232323;
+    color: #555555;
+    border: 1px solid #2a2a2a;
+    box-shadow: none;
+}
+
+.dark-mode .wrapper .buttons-box p {
+    color: #e0e0e0;
+}
+
+.dark-mode .buttons-box .btn_cancel {
+    color: #e0e0e0;
+}
+
+/* Dark Mode Modal Styling */
+.dark-mode .modal {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.dark-mode .modal-content {
+    background-image: linear-gradient(135deg, #232133 0%, #342381 50%, #ae4bff 100%);
+    border: 1px solid #333333;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.dark-mode .modal-close {
+    color: #e0e0e0;
+}
+
+.dark-mode .modal-close:hover {
+    color: #8ec5fc;
+}
+
+.dark-mode .modal-header {
+    border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+    color: #e0e0e0;
+}
+
+.dark-mode .modal-footer {
+    border-top: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+.dark-mode .modal-accept {
+    background-color: rgba(30, 30, 30, 0.6);
+    color: #e0e0e0;
+    border: 2px solid rgba(100, 100, 100, 0.5);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.dark-mode .modal-accept:hover {
+    background-color: rgba(142, 197, 252, 0.2);
+    border: 2px solid #8ec5fc;
+    color: #ffffff;
+}
+
+.dark-mode .terms-content {
+    color: #e0e0e0;
+}
+
+.dark-mode .terms-content h3 {
+    color: #8ec5fc;
+}
+
+.dark-mode .terms-content ul li:before {
+    color: #8ec5fc;
+}
+
+/* Custom scrollbar for dark mode */
+.dark-mode ::-webkit-scrollbar {
+    width: 8px;
+}
+
+.dark-mode ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 10px;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #444444;
+}

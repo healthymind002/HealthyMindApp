@@ -1,0 +1,106 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ========================================
+    // Usuarios - Cada usuario accede solo a su documento
+    // ========================================
+    match /usuarios/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ========================================
+    // Configuraciones - Solo el dueño accede
+    // ========================================
+    match /configuraciones/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ========================================
+    // COMENTARIOS - Lectura para todos, escritura para autores, reacciones para todos
+    // ========================================
+    match /comentarios/{comentarioId} {
+      // Cualquier usuario autenticado puede leer comentarios activos
+      allow read: if request.auth != null;
+      
+      // Solo el autor puede crear su comentario
+      allow create: if request.auth != null && 
+                   request.auth.uid == request.resource.data.uid;
+      
+      // MODIFICADO: Permitir actualizaciones para reacciones
+      allow update: if request.auth != null && (
+        // El autor puede actualizar todo su comentario
+        request.auth.uid == resource.data.uid ||
+        // O cualquier usuario autenticado puede actualizar solo las reacciones
+        (onlyReactionsChanged() && request.resource.data.uid == resource.data.uid)
+      );
+      
+      // Solo el autor puede "eliminar" (marcar como inactivo)
+      allow delete: if request.auth != null && 
+                   request.auth.uid == resource.data.uid;
+    }
+    
+    // ========================================
+    // RESPUESTAS - Lectura para todos, escritura para autores, reacciones para todos
+    // ========================================
+    match /respuestas/{respuestaId} {
+      // Cualquier usuario autenticado puede leer respuestas activas
+      allow read: if request.auth != null;
+      
+      // Solo el autor puede crear su respuesta
+      allow create: if request.auth != null && 
+                   request.auth.uid == request.resource.data.uid;
+      
+      // MODIFICADO: Permitir actualizaciones para reacciones
+      allow update: if request.auth != null && (
+        // El autor puede actualizar toda su respuesta
+        request.auth.uid == resource.data.uid ||
+        // O cualquier usuario autenticado puede actualizar solo las reacciones
+        (onlyReactionsChanged() && request.resource.data.uid == resource.data.uid)
+      );
+      
+      // Solo el autor puede "eliminar" (marcar como inactivo)
+      allow delete: if request.auth != null && 
+                   request.auth.uid == resource.data.uid;
+    }
+    
+    // ========================================
+    // Chats - Solo participantes acceden
+    // ========================================
+    match /chats/{chatId} {
+      allow read, write: if request.auth != null &&
+                         request.auth.uid in resource.data.participantes;
+    }
+    
+    // ========================================
+    // Mensajes - Solo autor accede
+    // ========================================
+    match /mensajes/{mensajeId} {
+      allow read, write: if request.auth != null &&
+                         request.auth.uid == resource.data.autorId;
+    }
+    
+    // ========================================
+    // Por defecto, denegar el resto
+    // ========================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// ========================================
+// FUNCIÓN AUXILIAR: Verificar que solo cambiaron las reacciones
+// ========================================
+function onlyReactionsChanged() {
+  // Verificar que todos los campos excepto 'reacciones' permanecen iguales
+  return request.resource.data.keys().hasAll(resource.data.keys()) &&
+         resource.data.keys().hasAll(request.resource.data.keys()) &&
+         request.resource.data.uid == resource.data.uid &&
+         request.resource.data.usuario == resource.data.usuario &&
+         request.resource.data.texto == resource.data.texto &&
+         request.resource.data.comentarioId == resource.data.get('comentarioId', null) &&
+         request.resource.data.timestamp == resource.data.timestamp &&
+         request.resource.data.fechaCreacion == resource.data.fechaCreacion &&
+         request.resource.data.hora == resource.data.hora &&
+         request.resource.data.activo == resource.data.activo;
+}

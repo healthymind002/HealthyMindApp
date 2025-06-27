@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/CSS_General/Inicio_de_sesion.css">
+</head>
+<body>
+    <div class="wrapper">
+        <img src="/Imagenes/logos/logo.png" alt="" class="logo_sup">
+        <form action="" id="loginForm">
+            <h1 id="titulo">Iniciar sesión</h1>
+            
+            <div class="input-box hidden" id="nombre">
+                <input type="text" id="nombre" placeholder="Nombre" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            
+            <div class="input-box" id="email-box">
+                <input type="email" id="email" placeholder="Correo electrónico" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            
+            <div class="input-box" id="password-box">
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            
+            <div class="recuerdame-olvide">
+                <label><input type="checkbox" id="remember"> Recuérdame</label>
+                <a href="#" id="forgot-password">Olvidé mi contraseña</a>
+            </div>
+            
+            <div class="terms hidden" id="terms-box">
+                <label><input type="checkbox" id="terms"> Acepto los <a href="#" id="terms-open">términos y condiciones</a></label>
+            </div>
+
+            <button type="submit" class="btn" id="submit-btn">Iniciar sesión</button>
+
+            <div class="buttons-box">
+                <button id="signUp" type="button">Registrarme</button>
+                <p>o</p>
+                <button id="signIn" type="button" class="disable">Iniciar sesión</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="modal" id="terms-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modal-close">X</span>
+            <div class="modal-header">
+                <h1>Términos y condiciones</h1>
+            </div>
+            <div class="terms-content">
+                
+                <h3> Términos y Condiciones de Healthy Mind <br> 31 de marzo de 2025</h3>
+
+                <h2> 1. Aceptación de los términos:</h2>
+                  
+                    <p>Al acceder o usar la aplicación Healthy Mind (en adelante, "la
+                  App"), usted acepta cumplir con estos Términos y Condiciones.
+                  Si no está de acuerdo con alguna de las condiciones aquí
+                  establecidas, le recomendamos no utilizar la App. </p>
+                  
+                <h2> 2. Descripción de la aplicación:</h2>
+                  
+                    <p>Healthy Mind es una aplicación diseñada para brindar apoyo 
+                  emocional a los usuarios a través de interacciones con otros usuarios, 
+                  terapeutas certificados y voluntarios entrenados, así como herramientas 
+                  de autoayuda y bienestar mental. La App proporciona acceso a 
+                  chats para facilitar el soporte emocional. </p>
+                  
+                <!-- Resto de los términos y condiciones -->
+            </div>
+            <div class="modal-footer">
+                <button class="modal-accept" id="accept-terms">Aceptar términos</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK (Solo compat version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Configuración de Firebase -->
+    <script src="/Java/base_de_datos_js/firebase-config.js"></script>
+    
+    <!-- JavaScript de la aplicación -->
+    <script src="/Java/inicio_de_sesion.js"></script>
+
+</body>
+</html>
