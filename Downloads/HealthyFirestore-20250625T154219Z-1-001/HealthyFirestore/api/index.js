@@ -1,7 +1,7 @@
 // api/index.js (adaptado para Vercel)
 // Importa las librerías necesarias para tu API
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors'); // <-- Esta línea se mantiene así, es la importación.
 // La librería de Google Generative AI para interactuar con Gemini
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
@@ -9,9 +9,10 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 app.use(express.json()); // Middleware para parsear JSON en el cuerpo de las solicitudes
 
-// Configuración de CORS. Permite cualquier origen para facilitar el inicio.
-// Si necesitas más especificidad en producción, puedes configurar dominios permitidos.
-app.use(cors({ origin: true }));
+// --- Configuración de CORS con tu origen específico de Vercel ---
+// Esta es la línea que debes modificar:
+app.use(cors({ origin: 'https://healthy-mind-app-five.vercel.app' }));
+
 
 // --- Configuración e inicialización de la IA de Google Generative ---
 // IMPORTANTE: En Vercel, la API Key se obtiene de las variables de entorno configuradas
