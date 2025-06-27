@@ -1,51 +1,19 @@
 /* ============================
    MENÚ DE HAMBURGUESA
    ============================ */
-const nav = document.querySelector("#barra");
-const abrir = document.querySelector("#abrir");
-const cerrar = document.querySelector("#cerrar");
-const logo = document.querySelector("#logo");
-const mainContent = document.querySelector("main");
+// ... (código del menú, sin cambios) ...
 
-// Funcionalidad del menú hamburguesa
-abrir.addEventListener("click", () => {
-    nav.classList.add("visible");
-    logo.style.display = "none";
-    mainContent.style.display = "none";
-    
-    // Ocultar comentarios cuando se abre el menú
-    const commentBoxes = document.querySelectorAll(".caja_comentarios");
-    commentBoxes.forEach(comment => comment.style.display = "none");
-});
-
-cerrar.addEventListener("click", () => {
-    nav.classList.remove("visible");
-    logo.style.display = "block";
-    mainContent.style.display = "block";
-    
-    // Mostrar comentarios cuando se cierra el menú
-    const commentBoxes = document.querySelectorAll(".caja_comentarios");
-    commentBoxes.forEach(comment => comment.style.display = "block");
-});
-
-// Animación de iconos en el menú
-document.querySelectorAll(".barralista li a").forEach(enlace => {
-    enlace.addEventListener("click", (e) => {
-        const icono = enlace.querySelector("i");
-        if (icono) {
-            icono.classList.add("animacion");
-
-            setTimeout(() => {
-                icono.classList.remove("animacion");
-            }, 300);
-        }
-    });
-});
-
+// Variables globales existentes
 let currentUser = null;
 let verificacionTimeout = null;
 let verificacionRespuestaTimeout = null;
 const todosLosPosts = [];
+
+// === CORRECCIONES PARA 'db' y 'auth' ===
+// ELIMINA estas líneas, ya que 'db' y 'auth' ya están declaradas en firebase-config.js
+// let db = null;   
+// let auth = null; 
+
 
 /*============================
    INICIALIZACIÓN DE FIREBASE
@@ -53,39 +21,41 @@ const todosLosPosts = [];
 function inicializarFirebase() {
     console.log("Iniciando configuración de Firebase...");
     
-    // Verificar que Firebase esté disponible
-    if (typeof firebase === 'undefined') {
-        console.error("Firebase no está disponible");
-        setTimeout(inicializarFirebase, 1000);
+    // Verifica que la SDK de Firebase esté cargada antes de intentar usarla
+    // Y que las referencias 'db' y 'auth' ya estén disponibles (desde firebase-config.js)
+    if (typeof firebase === 'undefined' || typeof firebase.firestore === 'undefined' || 
+        typeof firebase.auth === 'undefined' || typeof db === 'undefined' || typeof auth === 'undefined') {
+        console.error("SDK de Firebase o sus referencias (db/auth) no están disponibles. Reintentando en 1 segundo...");
+        setTimeout(inicializarFirebase, 1000); // Reintenta si no está listo
         return;
     }
 
-    // Inicializar referencias
-    db = firebase.firestore();
-    auth = firebase.auth();
+    // SI YA ESTÁN INICIALIZADAS EN firebase-config.js, NO NECESITAS REASIGNARLAS AQUÍ.
+    // Solo si db y auth fueran null o indefinidas después de la carga de firebase-config.js,
+    // lo cual no debería pasar si firebase-config.js las declara globalmente.
+    // Elimina o comenta las siguientes dos líneas si db y auth ya están disponibles globalmente:
+    // db = firebase.firestore(); // <-- ¡ELIMINA O COMENTA ESTA LÍNEA!
+    // auth = firebase.auth();    // <-- ¡ELIMINA O COMENTA ESTA LÍNEA!
     
-    console.log("Firebase inicializado correctamente");
+    console.log("Firebase (Firestore y Auth) inicializado correctamente y referencias disponibles.");
     
-    // CRÍTICO: Esperar a que Firebase verifique el estado de autenticación
-    auth.onAuthStateChanged((user) => {
-        console.log("Estado de autenticación cambió:", user ? "Autenticado" : "No autenticado");
-        
-        if (user) {
-            currentUser = user.displayName || user.email || "Usuario";
-            console.log("Usuario autenticado:", currentUser, "UID:", user.uid);
-            
-            // SOLO cargar comentarios después de confirmar autenticación
-            setTimeout(() => {
-                cargarComentarios();
-            }, 500);
-            
-        } else {
-            currentUser = null;
-            console.log("Usuario no autenticado - redirigiendo...");
-            // El auth-guard.js ya maneja la redirección
-        }
-    });
+
+    // Llama a la función que maneja el estado de autenticación (onAuthStateChanged)
+    // Esto es crucial para saber si el usuario está logueado o no
+    setupAuthStateListener(); 
 }
+
+/*============================
+   LISTENER DE ESTADO DE AUTENTICACIÓN
+   ============================ */
+// ... (el resto de tu código, incluyendo setupAuthStateListener, cargarComentarios, añadirComentario) ...
+
+
+// Asegúrate de que esta llamada a inicializarFirebase() se haga cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    inicializarFirebase();
+    // Otras inicializaciones de tu UI aquí
+});
 
 /* ============================
    FUNCIONES DE FIRESTORE
