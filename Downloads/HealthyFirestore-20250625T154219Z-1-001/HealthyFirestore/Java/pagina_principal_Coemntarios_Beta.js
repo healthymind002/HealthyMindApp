@@ -392,12 +392,12 @@ async function verificarComentario(texto) {
         statusText.innerHTML = '<span class="loader"></span>Verificando contenido...';
              
         try {
-            console.log("Enviando petición a API:", texto);
-            const response = await fetch('http://localhost:5000/moderar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contenido: texto })
-            });
+    console.log("Enviando petición a API:", texto);
+    const response = await fetch('https://mente-saludable-3f3jcxqo2-mente-saludable.vercel.app/api/moderar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contenido: texto })
+    });
             
             console.log("Respuesta de la API recibida:", response.status);
             const resultado = await response.json();
@@ -461,10 +461,10 @@ async function verificarRespuesta(texto, boton, indicador, icono, textoIndicador
         textoIndicador.innerHTML = '<span class="loader"></span>Verificando contenido...';
         
         try {
-            const response = await fetch('http://localhost:5000/moderar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ contenido: texto })
+            const response = await fetch('https://mente-saludable-3f3jcxqo2-mente-saludable.vercel.app/api/moderar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contenido: texto })
             });
             
             const resultado = await response.json();
