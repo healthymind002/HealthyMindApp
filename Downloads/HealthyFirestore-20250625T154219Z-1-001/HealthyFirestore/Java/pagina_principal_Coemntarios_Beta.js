@@ -49,7 +49,10 @@ function inicializarFirebase() {
    LISTENER DE ESTADO DE AUTENTICACIÓN
    ============================ */
 // ... (el resto de tu código, incluyendo setupAuthStateListener, cargarComentarios, añadirComentario) ...
-
+// === LA DEFINICIÓN COMPLETA DE setupAuthStateListener DEBE IR AQUÍ O ANTES ===
+function setupAuthStateListener() {
+    // ... todo el código de tu función setupAuthStateListener ...
+}
 
 // Asegúrate de que esta llamada a inicializarFirebase() se haga cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {

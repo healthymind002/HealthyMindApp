@@ -11,8 +11,7 @@ app.use(express.json()); // Middleware para parsear JSON en el cuerpo de las sol
 
 // --- Configuración de CORS con tu origen específico de Vercel ---
 // Esta es la línea que debes modificar:
-app.use(cors({ origin: 'https://healthy-mind-app-five.vercel.app' }));
-
+app.use(cors({ origin: true }));
 
 // --- Configuración e inicialización de la IA de Google Generative ---
 // IMPORTANTE: En Vercel, la API Key se obtiene de las variables de entorno configuradas
