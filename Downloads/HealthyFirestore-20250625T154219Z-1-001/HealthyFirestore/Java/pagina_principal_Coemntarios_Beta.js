@@ -8,6 +8,9 @@ let currentUser = null;
 let verificacionTimeout = null;
 let verificacionRespuestaTimeout = null;
 const todosLosPosts = [];
+function setupAuthStateListener() {
+    // ... todo el código de tu función setupAuthStateListener ...
+}
 
 // === CORRECCIONES PARA 'db' y 'auth' ===
 // ELIMINA estas líneas, ya que 'db' y 'auth' ya están declaradas en firebase-config.js
@@ -50,9 +53,7 @@ function inicializarFirebase() {
    ============================ */
 // ... (el resto de tu código, incluyendo setupAuthStateListener, cargarComentarios, añadirComentario) ...
 // === LA DEFINICIÓN COMPLETA DE setupAuthStateListener DEBE IR AQUÍ O ANTES ===
-function setupAuthStateListener() {
-    // ... todo el código de tu función setupAuthStateListener ...
-}
+
 
 // Asegúrate de que esta llamada a inicializarFirebase() se haga cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
@@ -365,12 +366,11 @@ async function verificarComentario(texto) {
         statusText.innerHTML = '<span class="loader"></span>Verificando contenido...';
              
         try {
-    console.log("Enviando petición a API:", texto);
-    const response = await fetch('https://mente-saludable-3f3jcxqo2-mente-saludable.vercel.app/api/moderar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contenido: texto })
-    });
+            const response = await fetch('https://healthy-mind-app-five.vercel.app/api/moderar', {
+             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contenido: texto })
+             });
             
             console.log("Respuesta de la API recibida:", response.status);
             const resultado = await response.json();
