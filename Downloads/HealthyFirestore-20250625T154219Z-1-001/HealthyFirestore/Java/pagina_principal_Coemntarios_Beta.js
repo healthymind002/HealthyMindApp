@@ -434,11 +434,11 @@ async function verificarRespuesta(texto, boton, indicador, icono, textoIndicador
         textoIndicador.innerHTML = '<span class="loader"></span>Verificando contenido...';
         
         try {
-            const response = await fetch('https://mente-saludable-3f3jcxqo2-mente-saludable.vercel.app/api/moderar', {
-            method: 'POST',
+            const response = await fetch('https://healthy-mind-app-five.vercel.app/api/moderar', {
+             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contenido: texto })
-            });
+    body: JSON.stringify({ contenido: texto })
+             });
             
             const resultado = await response.json();
             
